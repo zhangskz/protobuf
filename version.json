@@ -1,5 +1,5 @@
 {
-    "main": {
+    "21.x": {
         "protoc_version": "21.0-dev",
         "lts": false,
         "date": "2022-04-22",

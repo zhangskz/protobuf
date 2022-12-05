@@ -1,17 +1,17 @@
 {
     "main_qa": {
-        "protoc_version": "21-dev",
+        "protoc_version": "56-dev",
         "lts": false,
-        "date": "2022-04-22",
+        "date": "2022-12-05",
         "languages": {
-            "cpp": "3.21-dev",
-            "csharp": "3.21-dev",
-            "java": "3.21-dev",
-            "javascript": "3.21-dev",
-            "objectivec": "3.21-dev",
-            "php": "3.21-dev",
-            "python": "4.21-dev",
-            "ruby": "3.21-dev"
+            "cpp": "3.56-dev",
+            "csharp": "3.56-dev",
+            "java": "3.56-dev",
+            "javascript": "3.56-dev",
+            "objectivec": "3.56-dev",
+            "php": "3.56-dev",
+            "python": "4.56-dev",
+            "ruby": "3.56-dev"
         }
     }
 }

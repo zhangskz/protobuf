@@ -1,6 +1,6 @@
 load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("@rules_pkg//pkg:mappings.bzl", "pkg_files", "strip_prefix")
-load("//:protobuf.bzl", "internal_gen_well_known_protos_java")
+load("//:protobuf.bzl", "internal_gen_well_known_protos_java", "internal_java_proto_library",)
 load("//:protobuf_version.bzl", "PROTOBUF_JAVA_VERSION")
 load("//bazel:java_lite_proto_library.bzl", "java_lite_proto_library")
 load("//bazel:java_proto_library.bzl", "java_proto_library")
@@ -10,6 +10,7 @@ load("//build_defs:java_opts.bzl", "protobuf_java_export", "protobuf_java_librar
 load("//conformance:defs.bzl", "conformance_test")
 load("//editions:defaults.bzl", "compile_edition_defaults", "embed_edition_defaults")
 load("//java/internal:testing.bzl", "junit_tests")
+load("//python:internal.bzl", "internal_copy_files")
 load("//upb/cmake:build_defs.bzl", "staleness_test")
 
 LITE_SRCS = [
@@ -340,6 +341,20 @@ proto_library(
     ],
 )
 
+
+internal_java_proto_library(
+    name = "java_test_protos_v25_java_protos",
+    protoc = "@com_google_protobuf_v25//:protoc",
+    srcs = glob(["src/test/proto/**/*.proto"]),
+    includes = ["src/"],
+    proto_deps = [
+        "@com_google_protobuf_v25//:well_known_type_protos",
+        "@com_google_protobuf_v25//:descriptor_proto_srcs",
+        "//:lite_test_proto_srcs",
+        "//src/google/protobuf:test_proto_srcs",
+    ],
+)
+
 java_proto_library(
     name = "generic_test_protos_java_proto",
     visibility = [
@@ -431,6 +446,34 @@ junit_tests(
         ":generic_test_protos_java_proto",
         ":java_test_protos_java_proto",
         ":lite_test_protos_java_proto",
+        ":test_util",
+        "@maven//:com_google_guava_guava",
+        "@maven//:com_google_truth_truth",
+        "@maven//:junit_junit",
+        "@maven//:org_mockito_mockito_core",
+    ],
+)
+
+
+
+junit_tests(
+    name = "v25_core_tests",
+    size = "small",
+    srcs = glob(
+        ["src/test/java/**/*.java"],
+        exclude = [
+            "src/test/java/com/google/protobuf/DecodeUtf8Test.java",
+            "src/test/java/com/google/protobuf/IsValidUtf8Test.java",
+            "src/test/java/com/google/protobuf/TestUtil.java",
+            "src/test/java/com/google/protobuf/TestUtilLite.java",
+            "src/test/java/com/google/protobuf/RuntimeVersionTest.java",
+        ],
+    ),
+    data = ["//src/google/protobuf:testdata"],
+    deps = [
+        ":core",
+        "@com_google_protobuf_v25//java/core:java_test_protos_v25_java_protos",
+        ":generic_test_protos_editions_java_proto", # Editions is not supported in v25
         ":test_util",
         "@maven//:com_google_guava_guava",
         "@maven//:com_google_truth_truth",

@@ -1939,7 +1939,7 @@ public abstract class GeneratedMessage extends AbstractMessage implements Serial
    * Users should ignore this class. This class provides the implementation with access to the
    * fields of a message object using Java reflection.
    */
-  public static final class FieldAccessorTable {
+  public static class FieldAccessorTable {
 
     /**
      * Construct a FieldAccessorTable for a particular message class. Only one FieldAccessorTable

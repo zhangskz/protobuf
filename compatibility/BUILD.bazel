@@ -5,6 +5,7 @@
 # the corresponding http_archive in the WORKSPACE file for the version.
 
 load("//compatibility:runtime_conformance.bzl", "java_runtime_conformance")
+# load("//java/internal:testing.bzl", "junit_tests")
 
 # main gencode builds with main runtime as a proof of concept.
 java_runtime_conformance(
@@ -16,4 +17,15 @@ java_runtime_conformance(
 java_runtime_conformance(
     name = "java_conformance_v3.25.0",
     gencode_version = "3.25.0",
+)
+
+java_test(
+    name = "java_conformance_unittest_v3.25.0",
+    size = "small",
+    test_class = "com.google.protobuf.CompatibilityTest",
+    srcs = ["CompatibilityTest.java"],
+    deps = [
+        ":conformance_v3.25.0_lib",
+        "@maven//:junit_junit",
+    ],
 )

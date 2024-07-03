@@ -99,7 +99,9 @@ public abstract class GeneratedMessage extends AbstractMessage implements Serial
    * Get the FieldAccessorTable for this type. We can't have the message class pass this in to the
    * constructor because of bootstrapping trouble with DescriptorProtos.
    */
-  protected abstract FieldAccessorTable internalGetFieldAccessorTable();
+  protected FieldAccessorTable internalGetFieldAccessorTable(){ 
+    throw new UnsupportedOperationException("This is supposed to be overridden by subclasses.");
+  }
 
   @Override
   public Descriptor getDescriptorForType() {
@@ -562,7 +564,8 @@ public abstract class GeneratedMessage extends AbstractMessage implements Serial
     }
 
     /** Internal helper which returns a mutable map. */
-    private Map<FieldDescriptor, Object> getAllFieldsMutable() {
+    // ExtendableBuilder is now a subclass of GeneratedMessageV3.Builder which is a subclass of GeneratedMessage.Builder
+    protected Map<FieldDescriptor, Object> getAllFieldsMutable() {
       final TreeMap<FieldDescriptor, Object> result = new TreeMap<>();
       final FieldAccessorTable fieldAccessorTable = internalGetFieldAccessorTable();
       final Descriptor descriptor = fieldAccessorTable.descriptor;
@@ -931,7 +934,7 @@ public abstract class GeneratedMessage extends AbstractMessage implements Serial
    * <p>See also {@link ExtendableBuilder}.
    */
   public abstract static class ExtendableMessage<MessageT extends ExtendableMessage<MessageT>>
-      extends GeneratedMessage implements ExtendableMessageOrBuilder<MessageT> {
+      extends GeneratedMessageV3 implements ExtendableMessageOrBuilder<MessageT> {
 
     private static final long serialVersionUID = 1L;
 
@@ -1036,7 +1039,7 @@ public abstract class GeneratedMessage extends AbstractMessage implements Serial
       private Map.Entry<FieldDescriptor, Object> next;
       private final boolean messageSetWireFormat;
 
-      private ExtensionWriter(final boolean messageSetWireFormat) {
+      protected ExtensionWriter(final boolean messageSetWireFormat) {
         if (iter.hasNext()) {
           next = iter.next();
         }
@@ -1213,7 +1216,8 @@ public abstract class GeneratedMessage extends AbstractMessage implements Serial
   public abstract static class ExtendableBuilder<
           MessageT extends ExtendableMessage<MessageT>,
           BuilderT extends ExtendableBuilder<MessageT, BuilderT>>
-      extends Builder<BuilderT> implements ExtendableMessageOrBuilder<MessageT> {
+      // TODO: Replace with GeneratedMessage.Builder when shims can be removed.
+      extends GeneratedMessageV3.Builder<BuilderT> implements ExtendableMessageOrBuilder<MessageT> {
 
     private FieldSet.Builder<FieldDescriptor> extensions;
 
@@ -1939,7 +1943,7 @@ public abstract class GeneratedMessage extends AbstractMessage implements Serial
    * Users should ignore this class. This class provides the implementation with access to the
    * fields of a message object using Java reflection.
    */
-  public static final class FieldAccessorTable {
+  public static class FieldAccessorTable {
 
     /**
      * Construct a FieldAccessorTable for a particular message class. Only one FieldAccessorTable

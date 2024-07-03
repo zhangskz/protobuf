@@ -7,7 +7,12 @@
 
 package com.google.protobuf;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import com.google.protobuf.Descriptors.Descriptor;
+import com.google.protobuf.Descriptors.FieldDescriptor;
 
 /**
  * Stub for GeneratedMessageV3 wrapping GeneratedMessage for compatibility with older gencode.
@@ -29,6 +34,66 @@ public abstract class GeneratedMessageV3 extends GeneratedMessage {
   }
 
   /**
+   * Stub for GeneratedMessageV3.Builder wrapping GeneratedMessage.Builder for
+   * compatibility with older gencode.
+   *
+   * @deprecated This class is deprecated, and slated for removal in the next Java breaking change
+   *     (5.x in 2025 Q1). Users should update gencode to >= 4.26.x which uses
+   *     GeneratedMessage.Builder instead of GeneratedMessageV3.Builder.
+   */
+ /** Builder class for {@link GeneratedMessage}. */
+ @SuppressWarnings("unchecked")
+ public abstract static class Builder<BuilderT extends Builder<BuilderT>>
+     extends GeneratedMessage.Builder<BuilderT> {
+
+   protected Builder() {
+     this(null);
+   }
+
+   protected Builder(BuilderParent builderParent) {
+     super(builderParent);
+   }
+  }
+
+  @Override
+  protected FieldAccessorTable internalGetFieldAccessorTable() {
+    throw new UnsupportedOperationException("This is supposed to be overridden by subclasses.");
+  }
+
+   
+  @Deprecated
+  public interface ExtendableMessageOrBuilder<MessageT extends ExtendableMessage<MessageT>>
+   extends GeneratedMessage.ExtendableMessageOrBuilder<MessageT> {
+  }
+
+  @Deprecated
+  public abstract static class ExtendableMessage<MessageT extends ExtendableMessage<MessageT>>
+      extends GeneratedMessage.ExtendableMessage<MessageT> {
+
+    protected ExtendableMessage() {
+      super();
+    }
+
+    protected ExtendableMessage(GeneratedMessageV3.ExtendableBuilder<MessageT, ?> builder) {
+      super(builder);
+    }
+
+    @Deprecated
+    protected class ExtensionWriter extends GeneratedMessage.ExtendableMessage<MessageT>.ExtensionWriter{
+      // Imagine how much simpler this code would be if Java iterators had
+      // a way to get the next element without advancing the iterator.
+  
+      private ExtensionWriter(final boolean messageSetWireFormat) {
+        super(messageSetWireFormat);
+      }
+    }
+    
+    protected ExtensionWriter newExtensionWriter() {
+      return new ExtensionWriter(false);
+    }
+  }
+
+  /**
    * Stub for GeneratedMessageV3.ExtendableBuilder wrapping GeneratedMessage.ExtendableBuilder for
    * compatibility with older gencode.
    *
@@ -40,8 +105,8 @@ public abstract class GeneratedMessageV3 extends GeneratedMessage {
   public abstract static class ExtendableBuilder<
           MessageT extends ExtendableMessage<MessageT>,
           BuilderT extends ExtendableBuilder<MessageT, BuilderT>>
-      extends GeneratedMessage.ExtendableBuilder<MessageT, BuilderT>
-      implements GeneratedMessage.ExtendableMessageOrBuilder<MessageT> {
+      extends GeneratedMessage.ExtendableBuilder<MessageT, BuilderT> {
+      // extends GeneratedMessageV3.Builder
     protected ExtendableBuilder() {
       super();
     }
@@ -78,6 +143,27 @@ public abstract class GeneratedMessageV3 extends GeneratedMessage {
     public <T> BuilderT clearExtension(
         final GeneratedMessage.GeneratedExtension<MessageT, T> extension) {
       return clearExtension((ExtensionLite<MessageT, T>) extension);
+    }
+  }
+
+  @Deprecated
+  public static final class FieldAccessorTable extends GeneratedMessage.FieldAccessorTable {
+    public FieldAccessorTable(
+        final Descriptor descriptor,
+        final String[] camelCaseNames,
+        final Class<? extends GeneratedMessage> messageClass,
+        final Class<? extends Builder<?>> builderClass) {
+        super(descriptor, camelCaseNames, messageClass, builderClass);
+    }
+
+    public FieldAccessorTable(final Descriptor descriptor, final String[] camelCaseNames) {
+        super(descriptor, camelCaseNames);
+    }
+
+    @Override
+    public FieldAccessorTable ensureFieldAccessorsInitialized(
+        Class messageClass, Class builderClass) {
+        return (FieldAccessorTable) super.ensureFieldAccessorsInitialized(messageClass, builderClass);
     }
   }
 }

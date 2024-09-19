@@ -1,8 +1,8 @@
-{
     "28.x": {
         "protoc_version": "28.3-dev",
         "lts": false,
         "date": "2024-09-18",
+
         "languages": {
             "cpp": "5.28.3-dev",
             "csharp": "3.28.3-dev",
